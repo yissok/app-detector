@@ -12,6 +12,7 @@
 		65A3022327E85CE7005A1499 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65A3022227E85CE7005A1499 /* Assets.xcassets */; };
 		65A3022627E85CE7005A1499 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65A3022527E85CE7005A1499 /* Preview Assets.xcassets */; };
 		65A3022E27E85F14005A1499 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A3022D27E85F14005A1499 /* AppDelegate.swift */; };
+		65C5E8BD27E9AD1300B25407 /* add_commit_push.sh in Resources */ = {isa = PBXBuildFile; fileRef = 65C5E8BC27E9AD1300B25407 /* add_commit_push.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		65A3022527E85CE7005A1499 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		65A3022727E85CE7005A1499 /* app_detector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = app_detector.entitlements; sourceTree = "<group>"; };
 		65A3022D27E85F14005A1499 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		65C5E8BC27E9AD1300B25407 /* add_commit_push.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = add_commit_push.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		65A3021D27E85CE6005A1499 /* app detector */ = {
 			isa = PBXGroup;
 			children = (
+				65C5E8BC27E9AD1300B25407 /* add_commit_push.sh */,
 				65A3021E27E85CE6005A1499 /* app_detectorApp.swift */,
 				65A3022027E85CE6005A1499 /* ContentView.swift */,
 				65A3022227E85CE7005A1499 /* Assets.xcassets */,
@@ -132,6 +135,7 @@
 			files = (
 				65A3022627E85CE7005A1499 /* Preview Assets.xcassets in Resources */,
 				65A3022327E85CE7005A1499 /* Assets.xcassets in Resources */,
+				65C5E8BD27E9AD1300B25407 /* add_commit_push.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

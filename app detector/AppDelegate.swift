@@ -5,8 +5,51 @@ import AppKit
 #if os(macOS)
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    let source = """
+                  tell application "Day One"
+                      
+                      activate
+                      
+                  end tell
+
+                  delay 1
+
+                  tell application "System Events"
+                      
+                      tell process "Day One"
+                          
+                          click menu item "JSON" of menu 1 of menu item "Export" of menu "File" of menu bar 1
+                          delay 1
+                          tell application "System Events" to key code 36 #return
+                          delay 1
+                          tell application "System Events" to key code 36 #return
+                          
+                      end tell
+                      
+                  end tell
+
+                  tell application "Day One"
+                      
+                      quit
+                      
+                  end tell
+                  """
+        
+     func applescript() -> Void {
+            if let script = NSAppleScript(source: source) {
+                var error: NSDictionary?
+                script.executeAndReturnError(&error)
+                if let err = error {
+                    print(err)
+                }
+            }
+        }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        
+        
+        print("as")
+        applescript()
         print("start")
         
         let center = NSWorkspace.shared.notificationCenter
@@ -14,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             object: nil,
                              queue: OperationQueue.main) { (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                                    print(app.bundleIdentifier)
                                     if app.bundleIdentifier == "com.github.atom" {
                                         print("Atom terminated")
                                         do {
@@ -64,4 +108,5 @@ func safeShell(_ command: String) throws -> String {
 }
 
 // Example usage:
+
 

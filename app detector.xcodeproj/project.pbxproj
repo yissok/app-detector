@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6512D61E27EB0EEE00AEF9FE /* app-detector-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "app-detector-Info.plist"; sourceTree = SOURCE_ROOT; };
 		65A3021B27E85CE6005A1499 /* app detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A3021E27E85CE6005A1499 /* app_detectorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app_detectorApp.swift; sourceTree = "<group>"; };
 		65A3022027E85CE6005A1499 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		65A3021D27E85CE6005A1499 /* app detector */ = {
 			isa = PBXGroup;
 			children = (
+				6512D61E27EB0EEE00AEF9FE /* app-detector-Info.plist */,
 				65C5E8BC27E9AD1300B25407 /* add_commit_push.sh */,
 				65A3021E27E85CE6005A1499 /* app_detectorApp.swift */,
 				65A3022027E85CE6005A1499 /* ContentView.swift */,
@@ -284,6 +286,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "app-detector-Info.plist";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "close apps";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -311,6 +315,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "app-detector-Info.plist";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "close apps";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

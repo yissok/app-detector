@@ -4,8 +4,12 @@ import AppKit
 
 #if os(macOS)
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
+    var lastChecked:Int = 0
+    
     let source = """
+                  delay 1
+                  
                   tell application "Day One"
                       
                       activate
@@ -44,12 +48,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    
+    func unzipMoveRemove() -> Void {
+        do {
+            let a:String = try! safeShell("""
+cd /Users/andrea/Desktop
+unzip "$(ls *-*-*_*-*-*.zip | sort -V | tail -n1)"
+mv -f The\\ Daily\\ Daily.json /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily/The\\ Daily\\ Daily.json
+rm "$(ls *-*-*_*-*-*.zip | sort -V | tail -n1)"
+""")
+            print(a)
+        }
+    }
+    
+    func pushChanges() -> Void {
+        do {
+            var a:String = try! safeShell("echo \"aaaaaoaooaoaao\"")
+//                                            print(a)
+            a = try! safeShell("""
+cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
+git add .
+git commit -m "auto commit swift"
+git push origin main
+""")
+//                                            print(a)
+            a = try! safeShell("""
+git --version
+""")
+            print(a)
+        }
+    }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         
         
-        print("as")
-        applescript()
         print("start")
         
         let center = NSWorkspace.shared.notificationCenter
@@ -57,24 +89,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             object: nil,
                              queue: OperationQueue.main) { (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-                                    print(app.bundleIdentifier)
+                                    if app.bundleIdentifier == "com.bloombuilt.dayone-mac" {
+                                        let date = Date()
+                                        let epoch = date.timeIntervalSince1970
+                                        let intdate:Int = Int(epoch)
+                                        print(intdate)
+                                        if intdate-self.lastChecked>10 {
+                                            print("Day One terminated")
+                                            self.applescript()
+                                            print("as doeneeeee   - - - - - - - - = = ==  = = ")
+                                            self.unzipMoveRemove()
+                                            self.lastChecked=intdate
+                                            self.pushChanges()
+                                        }
+                                    }
                                     if app.bundleIdentifier == "com.github.atom" {
                                         print("Atom terminated")
-                                        do {
-                                            var a:String = try! safeShell("echo \"aaaaaoaooaoaao\"")
-//                                            print(a)
-                                            a = try! safeShell("""
-cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
-git add .
-git commit -m "auto commit swift"
-git push origin main
-""")
-//                                            print(a)
-                                            a = try! safeShell("""
-git --version
-""")
-                                            print(a)
-                                        }
+                                        self.pushChanges()
                                     }
                                 }
         }

@@ -2,11 +2,12 @@ import SwiftUI
 import Foundation
 import AppKit
 
+var externalModel:ExternalModel=ExternalModel()
 #if os(macOS)
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var lastChecked:Int = 0
-    
+    var diffDayOne:Int = 0
     let source = """
                   delay 1
                   
@@ -16,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                       
                   end tell
 
-                  delay 1
+                  delay 2
 
                   tell application "System Events"
                       
@@ -78,6 +79,32 @@ git --version
             print(a)
         }
     }
+    
+    
+
+    func logBoth(_ s: String) {
+        externalModel.log(s)
+        print(s)
+    }
+
+    func proceed() {
+        let intdate:Int = Int(Date().timeIntervalSince1970)
+        self.diffDayOne=Int(Date().timeIntervalSince1970)-self.lastChecked
+        self.logBoth("date check: "+String(intdate)+"\nlast check: "+String(self.lastChecked)+"\ndiff: "+String(self.diffDayOne))
+        if self.diffDayOne>10 {
+            self.lastChecked=intdate
+            print("Day One terminated")
+            self.logBoth("applescript start")
+            self.applescript()
+            self.logBoth("applescript done")
+            self.unzipMoveRemove()
+            self.logBoth("unzipMoveRemove done")
+            self.pushChanges()
+            self.logBoth("pushed\n\n\n")
+        }
+    }
+
+
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         
@@ -89,19 +116,18 @@ git --version
                             object: nil,
                              queue: OperationQueue.main) { (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                                    self.logBoth(app.bundleIdentifier!)
                                     if app.bundleIdentifier == "com.bloombuilt.dayone-mac" {
-                                        let date = Date()
-                                        let epoch = date.timeIntervalSince1970
-                                        let intdate:Int = Int(epoch)
-                                        print(intdate)
-                                        if intdate-self.lastChecked>10 {
-                                            print("Day One terminated")
-                                            self.applescript()
-                                            print("as doeneeeee   - - - - - - - - = = ==  = = ")
-                                            self.unzipMoveRemove()
-                                            self.lastChecked=intdate
-                                            self.pushChanges()
+                                        if self.lastChecked==0 {
+                                            self.proceed()
+                                        } else if Int(Date().timeIntervalSince1970)-self.lastChecked>10 {
+                                            self.logBoth("self.diffDayOne: "+String(self.diffDayOne))
+                                            self.proceed()
+                                        } else {
+                                            self.logBoth("not doing bc diff is: "+String(Int(Date().timeIntervalSince1970)-self.lastChecked))
                                         }
+                                        
+                                        
                                     }
                                     if app.bundleIdentifier == "com.github.atom" {
                                         print("Atom terminated")

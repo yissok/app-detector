@@ -1,9 +1,23 @@
 import SwiftUI
 
+
+class ExternalModel: ObservableObject {
+    @Published var textToUpdate: String = ""
+    func log(_ s: String) {
+        // other functionality
+        textToUpdate = textToUpdate+"\n\n"+s
+    }
+}
+
+
 struct ContentView: View {
-    @AppStorage("name") var name = "Anonymous"
+    @State var name = "Anonymous"
+    @ObservedObject var viewModel: ExternalModel
     var body: some View {
-        Text("Your name is \(name).")
-            .padding()
+        VStack {
+            ScrollView {
+                Text(self.viewModel.textToUpdate).padding()
+            }
+        }.frame(width: 500, height: 300)
     }
 }

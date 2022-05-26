@@ -64,19 +64,22 @@ rm "$(ls *-*-*_*-*-*.zip | sort -V | tail -n1)"
     
     func pushChanges() -> Void {
         do {
-            var a:String = try! safeShell("echo \"aaaaaoaooaoaao\"")
-//                                            print(a)
-            a = try! safeShell("""
+            _ = try! safeShell("""
 cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
 git add .
-git commit -m "auto commit swift"
+git commit -m "auto commit swift encrybud"
+git pull origin main
 git push origin main
 """)
-//                                            print(a)
-            a = try! safeShell("""
-git --version
+        }
+    }
+    
+    func pullChanges() -> Void {
+        do {
+            _ = try! safeShell("""
+cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
+git pull origin main
 """)
-            print(a)
         }
     }
     
@@ -102,6 +105,11 @@ git --version
             self.pushChanges()
             self.logBoth("pushed\n\n\n")
         }
+    }
+
+    func pull() {
+        self.pullChanges()
+        self.logBoth("pulled\n\n\n")
     }
 
 
@@ -131,10 +139,23 @@ git --version
                                     }
                                     if app.bundleIdentifier == "com.github.atom" {
                                         print("Atom terminated")
+                                        self.logBoth("pushed\n\n\n")
                                         self.pushChanges()
                                     }
                                 }
         }
+        center.addObserver(forName: NSWorkspace.willLaunchApplicationNotification,
+                            object: nil,
+                             queue: OperationQueue.main) { (notification: Notification) in
+                                if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                                    self.logBoth(app.bundleIdentifier!)
+                                    if app.bundleIdentifier == "com.github.atom" {
+                                        self.logBoth("Atom started")
+                                        self.pull()
+                                    }
+                                }
+        }
+        
         Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(functionOne), userInfo: nil, repeats: false)
 
     }

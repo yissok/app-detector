@@ -79,6 +79,7 @@ git push origin main
             _ = try! safeShell("""
 cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
 git pull origin main
+divert
 """)
         }
     }

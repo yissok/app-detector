@@ -79,7 +79,8 @@ git push origin main
             _ = try! safeShell("""
 cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
 git pull origin main
-divert
+cd misc/other/code
+sh divert.sh
 """)
         }
     }
@@ -114,6 +115,15 @@ divert
     }
 
 
+    func notWiTi(_ ti: String) {
+        let notification = NSUserNotification()
+        notification.title = ti
+        notification.soundName = NSUserNotificationDefaultSoundName
+        notification.deliveryDate = Date(timeIntervalSinceNow: 0)
+        NSUserNotificationCenter.default.scheduleNotification(notification)
+    }
+
+
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         
@@ -142,6 +152,7 @@ divert
                                         print("Atom terminated")
                                         self.logBoth("pushed\n\n\n")
                                         self.pushChanges()
+                                        self.notWiTi("Pushed")
                                     }
                                 }
         }
@@ -153,6 +164,7 @@ divert
                                     if app.bundleIdentifier == "com.github.atom" {
                                         self.logBoth("Atom started")
                                         self.pull()
+                                        self.notWiTi("Pulled")
                                     }
                                 }
         }

@@ -61,16 +61,27 @@ rm "$(ls *-*-*_*-*-*.zip | sort -V | tail -n1)"
             print(a)
         }
     }
-    
+    var countSinceStart=0
+    var countSinceStart2=0
     func pushChanges() -> Void {
-        do {
-            _ = try! safeShell("""
-cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
-git add .
-git commit -m "auto commit swift encrybud"
-git pull origin main
-git push origin main
-""")
+        if countSinceStart==0 {
+            countSinceStart=1
+            do {
+                _ = try! safeShell("""
+    cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
+    git add .
+    git commit -m "batch"
+    git pull origin main
+    git push origin main
+    """)
+            }
+        } else {
+            do {
+                _ = try! safeShell("""
+    cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
+    git add .
+    """)
+            }
         }
     }
     
@@ -133,7 +144,7 @@ sh divert.sh
         let center = NSWorkspace.shared.notificationCenter
         center.addObserver(forName: NSWorkspace.didTerminateApplicationNotification,
                             object: nil,
-                             queue: OperationQueue.main) { (notification: Notification) in
+                           queue: OperationQueue.main) { [self] (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
                                     self.logBoth(app.bundleIdentifier!)
                                     if app.bundleIdentifier == "com.bloombuilt.dayone-mac" {
@@ -152,7 +163,12 @@ sh divert.sh
                                         print("Atom terminated")
                                         self.logBoth("pushed\n\n\n")
                                         self.pushChanges()
-                                        self.notWiTi("Pushed")
+                                        if self.countSinceStart2==0 {
+                                            self.countSinceStart2=1
+                                            self.notWiTi("Pushed")
+                                        } else {
+                                            self.notWiTi("Added")
+                                        }
                                     }
                                 }
         }

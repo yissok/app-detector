@@ -64,25 +64,25 @@ rm "$(ls *-*-*_*-*-*.zip | sort -V | tail -n1)"
     var countSinceStart=0
     var countSinceStart2=0
     func pushChanges() -> Void {
-        if countSinceStart==0 {
-            countSinceStart=1
+//        if countSinceStart==0 {
+//            countSinceStart=1
+//            do {
+//                _ = try! safeShell("""
+//    cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
+//    git add .
+//    git commit -m "batch"
+//    git pull origin main
+//    git push origin main
+//    """)
+//            }
+//        } else {
             do {
                 _ = try! safeShell("""
     cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
     git add .
-    git commit -m "batch"
-    git pull origin main
-    git push origin main
     """)
             }
-        } else {
-            do {
-                _ = try! safeShell("""
-    cd /Users/andrea/Documents/PROGETTI/GIT/the-daily-daily
-    git add .
-    """)
-            }
-        }
+//        }
     }
     
     func pullChanges() -> Void {
@@ -163,12 +163,12 @@ sh divert.sh
                                         print("Atom terminated")
                                         self.logBoth("pushed\n\n\n")
                                         self.pushChanges()
-                                        if self.countSinceStart2==0 {
-                                            self.countSinceStart2=1
-                                            self.notWiTi("Pushed")
-                                        } else {
+//                                        if self.countSinceStart2==0 {
+//                                            self.countSinceStart2=1
+//                                            self.notWiTi("Pushed")
+//                                        } else {
                                             self.notWiTi("Added")
-                                        }
+//                                        }
                                     }
                                 }
         }

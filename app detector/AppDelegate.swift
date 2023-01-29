@@ -146,29 +146,31 @@ sh divert.sh
                             object: nil,
                            queue: OperationQueue.main) { [self] (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-                                    self.logBoth(app.bundleIdentifier!)
-                                    if app.bundleIdentifier == "com.bloombuilt.dayone-mac" {
-                                        if self.lastChecked==0 {
-                                            self.proceed()
-                                        } else if Int(Date().timeIntervalSince1970)-self.lastChecked>10 {
-                                            self.logBoth("self.diffDayOne: "+String(self.diffDayOne))
-                                            self.proceed()
-                                        } else {
-                                            self.logBoth("not doing bc diff is: "+String(Int(Date().timeIntervalSince1970)-self.lastChecked))
+                                    if app.bundleIdentifier != nil {
+                                        self.logBoth(app.bundleIdentifier!)
+                                        if app.bundleIdentifier == "com.bloombuilt.dayone-mac" {
+                                            if self.lastChecked==0 {
+                                                self.proceed()
+                                            } else if Int(Date().timeIntervalSince1970)-self.lastChecked>10 {
+                                                self.logBoth("self.diffDayOne: "+String(self.diffDayOne))
+                                                self.proceed()
+                                            } else {
+                                                self.logBoth("not doing bc diff is: "+String(Int(Date().timeIntervalSince1970)-self.lastChecked))
+                                            }
+                                            
+                                            
                                         }
-                                        
-                                        
-                                    }
-                                    if app.bundleIdentifier == "com.github.atom" {
-                                        print("Atom terminated")
-                                        self.logBoth("pushed\n\n\n")
-                                        self.pushChanges()
-//                                        if self.countSinceStart2==0 {
-//                                            self.countSinceStart2=1
-//                                            self.notWiTi("Pushed")
-//                                        } else {
-                                            self.notWiTi("Added")
-//                                        }
+                                        if app.bundleIdentifier == "md.obsidian" {
+                                            print("obsidian terminated")
+                                            self.logBoth("pushed\n\n\n")
+                                            self.pushChanges()
+    //                                        if self.countSinceStart2==0 {
+    //                                            self.countSinceStart2=1
+    //                                            self.notWiTi("Pushed")
+    //                                        } else {
+                                                self.notWiTi("Added")
+    //                                        }
+                                        }
                                     }
                                 }
         }
@@ -176,11 +178,13 @@ sh divert.sh
                             object: nil,
                              queue: OperationQueue.main) { (notification: Notification) in
                                 if let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-                                    self.logBoth(app.bundleIdentifier!)
-                                    if app.bundleIdentifier == "com.github.atom" {
-                                        self.logBoth("Atom started")
-                                        self.pull()
-                                        self.notWiTi("Pulled")
+                                    if app.bundleIdentifier != nil {
+                                        self.logBoth(app.bundleIdentifier!)
+                                        if app.bundleIdentifier == "md.obsidian" {
+                                            self.logBoth("obsidian started")
+                                            self.pull()
+                                            self.notWiTi("Pulled")
+                                        }
                                     }
                                 }
         }
